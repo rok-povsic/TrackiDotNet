@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,17 +10,15 @@ namespace Tracki
 {
     class Host
     {
-        private List<WorkTask> _categories;
-        private UserInput _userInput;
+        private readonly UserInput _userInput;
+        private readonly Categories _categories;
+        private readonly Statistics _statistics;
 
         public Host()
         {
             _userInput = new UserInput();
-            _categories = new List<WorkTask>
-            {
-                new WorkTask("Task 1"),
-                new WorkTask("Task 2"),
-            };
+            _categories = new Categories();
+            _statistics = new Statistics();
         }
 
         public void Start()
@@ -30,7 +29,7 @@ namespace Tracki
 @"What would you like to do?
     a - Start a task
     b - Modify categories
-    b - Statistics
+    c - Statistics
 ");
                 switch (cmd.ToLower())
                 {
@@ -45,6 +44,7 @@ namespace Tracki
                     }
                     case "c":
                     {
+                        _statistics.Show();
                         break;
                     }
                     default:

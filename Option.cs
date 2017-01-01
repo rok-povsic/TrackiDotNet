@@ -9,21 +9,21 @@ namespace Tracki
     class Option
     {
         private readonly string _text;
-        private readonly List<WorkTask> _options;
+        private readonly Categories _categories;
 
-        public Option(string text, List<WorkTask> options)
+        public Option(string text, Categories categories)
         {
             _text = text;
-            _options = options;
+            _categories = categories;
         }
 
         public WorkTask AskForTask()
         {
             Console.WriteLine(_text);
-            for (int i = 0; i < _options.Count; i++)
+            for (int i = 0; i < _categories.Count; i++)
             {
                 char c = (char) ('a' + i);
-                Console.WriteLine("\t" + c + " - " + _options[i]);
+                Console.WriteLine("\t" + c + " - " + _categories[i]);
             }
             Console.Write(">> ");
             string answer = Console.ReadLine();
@@ -31,7 +31,8 @@ namespace Tracki
 
             int chosenTask = answerChar - 'a';
 
-            return _options[chosenTask];
+            string category = _categories[chosenTask];
+            return new WorkTask(category);
         }
     }
 }

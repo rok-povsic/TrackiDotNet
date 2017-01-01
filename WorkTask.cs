@@ -11,13 +11,13 @@ namespace Tracki
         public string Name => _name;
 
         private readonly UserInput _userInput;
-
-        private readonly string _datetimeFormat = "yyyy-MM-dd HH:mm:ss";
+        private Data _data;
 
         public WorkTask(string name)
         {
             _name = name;
             _userInput = new UserInput();
+            _data = new Data();
         }
 
         public void Start()
@@ -61,16 +61,9 @@ Type 'c' to cancel.");
             var dtEnd = DateTime.Now;
             Console.WriteLine("Finished.");
 
-            using (var sw = new StreamWriter("data.txt", true))
-            {
-                string[] line =
-                {
-                    _name,
-                    dtStart.ToString(_datetimeFormat),
-                    dtEnd.ToString(_datetimeFormat)
-                };
-                sw.WriteLine(string.Join(",", line));
-            }
+            Directory.CreateDirectory(Settings.DataDir);
+
+            _data.Add(_name, dtStart, dtEnd);
         }
 
         private void Cancel()

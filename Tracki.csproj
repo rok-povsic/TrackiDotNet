@@ -47,6 +47,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Categories.cs" />
+    <Compile Include="Data.cs" />
+    <Compile Include="Settings.cs" />
+    <Compile Include="Statistics.cs" />
     <Compile Include="UserInput.cs" />
     <Compile Include="WorkTask.cs" />
     <Compile Include="Fake\FkTimeTracking.cs" />
