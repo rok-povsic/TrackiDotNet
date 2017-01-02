@@ -40,6 +40,7 @@ namespace Tracki
                     }
                     case "b":
                     {
+                        _categories.Display();
                         break;
                     }
                     case "c":
