@@ -51,6 +51,7 @@
     <Compile Include="Data.cs" />
     <Compile Include="Settings.cs" />
     <Compile Include="Statistics.cs" />
+    <Compile Include="Structures\WorkItem.cs" />
     <Compile Include="UserInput.cs" />
     <Compile Include="WorkTask.cs" />
     <Compile Include="Fake\FkTimeTracking.cs" />
