@@ -1,19 +1,22 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Tracki.Stats;
 using Tracki.Structures;
 
-namespace Tracki
+namespace Tracki.Stats
 {
     public class Statistics
     {
         private readonly Data _data;
         private readonly UserInput _userInput;
+        private StatisticsPerTask _statisticsPerTask;
 
         public Statistics()
         {
             _data = new Data();
             _userInput = new UserInput();
+            _statisticsPerTask = new StatisticsPerTask();
         }
 
         public void Show()
@@ -38,7 +41,7 @@ namespace Tracki
                 }
                 case "c":
                 {
-                    PerTaskDisplay();
+                    _statisticsPerTask.Display();
                     break;
                 }
                 case "d":
@@ -64,7 +67,7 @@ namespace Tracki
                     d[date] = TimeSpan.Zero;
                 }
 
-                d[date] += workItem.TimeSpan();
+                d[date] += workItem.Timespan();
             }
 
             List<DateTime> dates = d.Keys.ToList();
@@ -75,44 +78,13 @@ namespace Tracki
             foreach (DateTime date in dates)
             {
                 TimeSpan timeSpan = d[date];
-                int pomodoros = CalcNumPomodoros(timeSpan);
+                int pomodoros = new Pomodoros(timeSpan).NumPomodoros();
                 Console.WriteLine(
                     "{0,10} | {1,10} | {2,10}", date.ToString("yyyy-MM-dd"), timeSpan, pomodoros
                 );
             }
 
             Console.WriteLine();
-        }
-
-        private void PerTaskDisplay()
-        {
-            var d = new Dictionary<string, TimeSpan>();
-            foreach (WorkItem workItem in _data.Read())
-            {
-                if (!d.ContainsKey(workItem.Name))
-                {
-                    d[workItem.Name] = TimeSpan.Zero;
-                }
-
-                d[workItem.Name] += workItem.TimeSpan();
-            }
-
-            Console.WriteLine("{0,10} | {1,10} | {2,10}", "Name", "Sum time", "Pomodoros");
-            Console.WriteLine(new string('-', 30 + 3 * 2));
-            foreach (string name in d.Keys)
-            {
-                TimeSpan timeSpan = d[name];
-                int numPomodoros = CalcNumPomodoros(timeSpan);
-                Console.WriteLine("{0,10} | {1,10} | {2,10}", name, timeSpan, numPomodoros);
-            }
-
-            Console.WriteLine();
-        }
-
-        private int CalcNumPomodoros(TimeSpan timeSpan)
-        {
-            int numPomodoros = (int) (timeSpan.Ticks / TimeSpan.FromMinutes(25).Ticks);
-            return numPomodoros;
         }
 
         private void ChartLastTwoWeeks()
@@ -130,7 +102,7 @@ namespace Tracki
                 if (!d.ContainsKey(date)) {
                     d[date] = TimeSpan.Zero;
                 }
-                d[date] += workItem.TimeSpan();
+                d[date] += workItem.Timespan();
             }
 
             TimeSpan maxTimeSpan = d.Values.Max();
@@ -158,21 +130,17 @@ namespace Tracki
                 }
 
                 double rate = (double) timeSpan.Ticks / maxTimeSpan.Ticks;
-                int numOfChars = (int) (rate * 20);
-                int numPomodoros = CalcNumPomodoros(timeSpan);
+                int numPomodoros = new Pomodoros(timeSpan).NumPomodoros();
 
                 Console.WriteLine(
                     "{0,10} | {1,10} | {2,10} | {3}", 
                     curDate.ToShortDateString(), 
                     timeSpan, 
                     numPomodoros, 
-                    new string('x', numOfChars)
+                    new string('x', numPomodoros)
                 );
 
                 curDate += TimeSpan.FromDays(1);
-            }
-            foreach (DateTime date in d.Keys)
-            {
             }
 
             Console.WriteLine();

@@ -19,7 +19,7 @@ namespace Tracki.Structures
             DtEnd = DateTime.Parse(items[2]);
         }
 
-        public TimeSpan TimeSpan()
+        public TimeSpan Timespan()
         {
             return DtEnd - DtStart;
         }
