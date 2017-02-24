@@ -22,6 +22,8 @@ namespace Tracki
 
         public void Start()
         {
+            Console.WriteLine("Starting task {0}", _name);
+
             var dtStart = DateTime.Now;
             while (true)
             {
