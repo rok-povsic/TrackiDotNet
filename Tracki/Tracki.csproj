@@ -49,6 +49,7 @@
   <ItemGroup>
     <Compile Include="Categories.cs" />
     <Compile Include="Data.cs" />
+    <Compile Include="History\HistoricalData.cs" />
     <Compile Include="Settings.cs" />
     <Compile Include="Stats\Statistics.cs" />
     <Compile Include="Stats\StatisticsPerTask.cs" />

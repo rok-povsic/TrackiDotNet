@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Tracki.History;
 
 namespace Tracki
 {
@@ -10,7 +11,14 @@ namespace Tracki
     {
         static void Main(string[] args)
         {
-            new Host().Start();
+            if (args.Length == 0)
+            {
+                new Host().Start();
+            } 
+            else if (args[0] == "history")
+            {
+                new TogglData(args[1]).Transform();
+            }
         }
     }
 }
