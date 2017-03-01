@@ -1,12 +1,23 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
+using Tracki.Extensions;
 using Tracki.Stats;
 using Tracki.Structures;
 
 namespace Tracki.Stats
 {
+    public enum CompleteStatsTime
+    {
+        All,
+        ThisYear,
+        ThisMonth,
+        ThisWeek,
+        Today
+    }
+
     public class Statistics
     {
         private readonly Data _data;
@@ -25,11 +36,15 @@ namespace Tracki.Stats
                 string cmd = _userInput.Ask(
 @"What kind of statistics would you like to see?
     a - Work per day
-    b - Work per day of week
-    c - Work per task
-    d - Chart of last 14 days
-    e - Work per week
-    f - Work per month
+    b - Work per task
+    c - Work per week
+    d - Work per month
+    e - Chart of the last 14 days
+    f - All time stats
+    g - This year stats
+    h - This month stats
+    i - This week stats
+    j - Today stats
 ");
             switch (cmd.ToLower())
             {
@@ -40,27 +55,47 @@ namespace Tracki.Stats
                 }
                 case "b":
                 {
-                    PerDayOfWeekDisplay();
+                    _statisticsPerTask.Display();
                     break;
                 }
                 case "c":
                 {
-                    _statisticsPerTask.Display();
+                    PerWeekDisplay();
                     break;
                 }
                 case "d":
                 {
-                    ChartLastTwoWeeks();
+                    PerMonthDisplay();
                     break;
                 }
                 case "e":
                 {
-                    PerWeekDisplay();
+                    ChartLastTwoWeeks();
                     break;
                 }
                 case "f":
                 {
-                    PerMonthDisplay();
+                    CompleteStats(CompleteStatsTime.All);
+                    break;
+                }
+                case "g":
+                {
+                    CompleteStats(CompleteStatsTime.ThisYear);
+                    break;
+                }
+                case "h":
+                {
+                    CompleteStats(CompleteStatsTime.ThisMonth);
+                    break;
+                }
+                case "i":
+                {
+                    CompleteStats(CompleteStatsTime.ThisWeek);
+                    break;
+                }
+                case "j":
+                {
+                    CompleteStats(CompleteStatsTime.Today);
                     break;
                 }
                 default:
@@ -260,6 +295,85 @@ namespace Tracki.Stats
                 curDate += TimeSpan.FromDays(1);
             }
 
+            Console.WriteLine();
+        }
+
+        private void CompleteStats(CompleteStatsTime time)
+        {
+            DateTime dateFrom = DateTime.MinValue;
+            DateTime dateTo = DateTime.MaxValue;
+            switch (time)
+            {
+                case CompleteStatsTime.All:
+                {
+                    dateFrom = DateTime.MinValue;
+                    dateTo = DateTime.MaxValue;
+                    break;
+                }
+                case CompleteStatsTime.ThisYear:
+                {
+                    var now = DateTime.Now;
+                    dateFrom = new DateTime(now.Year, 1, 1);
+                    dateTo = dateFrom.AddYears(1);
+                    break;
+                }
+                case CompleteStatsTime.ThisMonth:
+                {
+                    var now = DateTime.Now;
+                    dateFrom = new DateTime(now.Year, now.Month, 1);
+                    dateTo = dateFrom.AddMonths(1);
+                    break;
+                }
+                case CompleteStatsTime.ThisWeek:
+                {
+                    var now = DateTime.Now;
+                    dateFrom = new DateTimeExtensions().StartOfWeek(now, DayOfWeek.Monday);
+                    dateTo = dateFrom.AddDays(7);
+                    break;
+                }
+                case CompleteStatsTime.Today:
+                {
+                    var now = DateTime.Now;
+                    dateFrom = now.Date;
+                    dateTo = dateFrom.AddDays(1);
+                    break;
+                }
+            }
+
+            DateTime actualMin = DateTime.MaxValue;
+            DateTime actualMax = DateTime.MinValue;
+
+            TimeSpan sum = TimeSpan.Zero;
+            var d = new SortedDictionary<DateTime, TimeSpan>();
+            foreach (WorkItem workItem in _data.Read())
+            {
+                DateTime date = workItem.DtStart.Date;
+                if (date < dateFrom)
+                {
+                    continue;
+                }
+                if (date < actualMin)
+                {
+                    actualMin = date;
+                }
+                if (actualMax < date)
+                {
+                    actualMax = date;
+                }
+                TimeSpan t = workItem.Timespan();
+                sum += t;
+                if (!d.ContainsKey(date)) {
+                    d[date] = TimeSpan.Zero;
+                }
+                d[date] += t;
+            }
+
+            Console.Write( "From {0:d} to {1:d} you have worked ", actualMin.Date, actualMax.Date);
+            ConsoleColor defaultColor = Console.ForegroundColor;
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.Write("{0} hours and {1} minutes", (int)sum.TotalHours, sum.Minutes);
+            Console.ForegroundColor = defaultColor;
+            Console.WriteLine(".");
             Console.WriteLine();
         }
 
