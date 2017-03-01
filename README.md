@@ -1,3 +1,6 @@
+[![Build status](https://ci.appveyor.com/api/projects/status/s5fs8yj70he2nbsc?svg=true)](https://ci.appveyor.com/project/Rok/tracki)
+
+
 Tracki
 ==============
 
