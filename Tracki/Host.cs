@@ -31,6 +31,7 @@ namespace Tracki
     a - Start a task
     b - Modify categories
     c - Statistics
+    q - Quit
 ");
                 switch (cmd.ToLower())
                 {
@@ -49,6 +50,10 @@ namespace Tracki
                         _statistics.Show();
                         break;
                     }
+                    case "q":
+                    {
+                        return;
+                    }
                     default:
                     {
                         break;
@@ -63,7 +68,6 @@ namespace Tracki
             WorkTask workTask = option.AskForTask();
 
             workTask.Start();
-
         }
     }
 }
