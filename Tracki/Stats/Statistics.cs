@@ -181,7 +181,8 @@ namespace Tracki.Stats
             foreach (WorkItem workItem in _data.Read())
             {
                 var date = workItem.DtStart.Date;
-                string yearWeek = date.ToString("yyyy-") + _WeekOfYear(date);
+                string yearWeek = date.ToString("yyyy-") + 
+                    _WeekOfYear(date).ToString().PadLeft(2, '0');
                 if (!d.ContainsKey(yearWeek))
                 {
                     d[yearWeek] = TimeSpan.Zero;
