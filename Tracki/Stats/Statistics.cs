@@ -178,17 +178,24 @@ namespace Tracki.Stats
         private void PerWeekDisplay()
         {
             var d = new Dictionary<string, TimeSpan>();
+            var dayOfWeekToHoursWorked = new Dictionary<DayOfWeek, TimeSpan>();
+            var dts = new HashSet<DateTime>();
             foreach (WorkItem workItem in _data.Read())
             {
-                var date = workItem.DtStart.Date;
+                DateTime date = workItem.DtStart.Date;
+                dts.Add(date);
                 string yearWeek = date.ToString("yyyy-") + 
                     _WeekOfYear(date).ToString().PadLeft(2, '0');
                 if (!d.ContainsKey(yearWeek))
                 {
                     d[yearWeek] = TimeSpan.Zero;
                 }
-
                 d[yearWeek] += workItem.Timespan();
+                if (!dayOfWeekToHoursWorked.ContainsKey(date.DayOfWeek))
+                {
+                    dayOfWeekToHoursWorked[date.DayOfWeek] = TimeSpan.Zero;
+                }
+                dayOfWeekToHoursWorked[date.DayOfWeek] += workItem.Timespan();
             }
 
             List<string> weeks = d.Keys.ToList();
@@ -207,6 +214,20 @@ namespace Tracki.Stats
             }
 
             Console.WriteLine();
+
+            Console.WriteLine(dts.Max());
+            Console.WriteLine(dts.Min());
+            int numDays = (int)(dts.Max() - dts.Min()).TotalDays;
+            Console.WriteLine("Num days: "+ numDays);
+            int numWeeks = numDays / 7;
+            foreach (DayOfWeek day in Enum.GetValues(typeof(DayOfWeek)))
+            {
+                var o = new TimeSpan(dayOfWeekToHoursWorked[day].Ticks / numWeeks);
+                Console.WriteLine(day + ": " + o.TotalHours + "h");
+            }
+
+            Console.WriteLine();
+
         }
 
 
@@ -341,25 +362,20 @@ namespace Tracki.Stats
                 }
             }
 
-            DateTime actualMin = DateTime.MaxValue;
-            DateTime actualMax = DateTime.MinValue;
+            DateTime tomorrow = DateTime.Today.AddDays(1).Date;
+            if (dateTo >= tomorrow)
+            {
+                dateTo = tomorrow;
+            }
 
             TimeSpan sum = TimeSpan.Zero;
             var d = new SortedDictionary<DateTime, TimeSpan>();
             foreach (WorkItem workItem in _data.Read())
             {
                 DateTime date = workItem.DtStart.Date;
-                if (date < dateFrom)
+                if (date < dateFrom || dateTo < date)
                 {
                     continue;
-                }
-                if (date < actualMin)
-                {
-                    actualMin = date;
-                }
-                if (actualMax < date)
-                {
-                    actualMax = date;
                 }
                 TimeSpan t = workItem.Timespan();
                 sum += t;
@@ -369,12 +385,22 @@ namespace Tracki.Stats
                 d[date] += t;
             }
 
-            Console.Write( "From {0:d} to {1:d} you have worked ", actualMin.Date, actualMax.Date);
+            Console.Write( "From {0:d} to {1:d} you have worked ", dateFrom, dateTo);
             ConsoleColor defaultColor = Console.ForegroundColor;
             Console.ForegroundColor = ConsoleColor.Yellow;
             Console.Write("{0} hours and {1} minutes", (int)sum.TotalHours, sum.Minutes);
             Console.ForegroundColor = defaultColor;
             Console.WriteLine(".");
+            Console.WriteLine();
+
+            TimeSpan timeSpan = dateTo - dateFrom;
+            TimeSpan timeWorkedPerDay = new TimeSpan(sum.Ticks / timeSpan.Days);
+            double totalHours = timeWorkedPerDay.TotalHours;
+            int hours = (int)totalHours;
+            int minutes = (int) ((totalHours - hours) * 60);
+            Console.WriteLine(
+                "Hours worked per day (including today): {0}h {1}min", hours, minutes
+            );
             Console.WriteLine();
         }
 
