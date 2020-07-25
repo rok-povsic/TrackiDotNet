@@ -1,5 +1,4 @@
-﻿﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
@@ -7,14 +6,9 @@ using System.Linq;
 {
     class Categories
     {
-
         private List<string> _categories;
 
         private readonly string _fileName;
-
-        public string this[int index] => _categories[index];
-
-        public int Count => _categories.Count;
 
         public List<string> List => _categories;
         private string FilePath => Path.Combine(Settings.DataDir, _fileName);
@@ -23,22 +17,6 @@ using System.Linq;
         {
             _fileName = fileName;
             ReadCategoriesFromFile();
-        }
-
-        public void Display()
-        {
-            Console.WriteLine("Categories:");
-            if (Count > 0)
-            {
-                foreach (string category in _categories)
-                {
-                    Console.WriteLine("\t" + category);
-                }
-            }
-            else
-            {
-                Console.WriteLine("There are no categories.");
-            }
         }
 
         private void ReadCategoriesFromFile()
@@ -63,24 +41,6 @@ using System.Linq;
         public bool Contains(string category)
         {
             return _categories.Contains(category);
-        }
-
-        /// <summary>
-        /// TODO: Rename work also?
-        /// </summary>
-        public void Rename(string oldCategory, string newCategory)
-        {
-            _categories[_categories.IndexOf(oldCategory)] = newCategory;
-            Persist();
-        }
-
-        /// <summary>
-        /// TODO: Remove work also?
-        /// </summary>
-        public void Remove(string category)
-        {
-            _categories.Remove(category);
-            Persist();
         }
 
         private void Persist()
