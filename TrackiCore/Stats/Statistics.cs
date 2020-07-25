@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using TrackiCore.Extensions;
-using TrackiCore.Structures;
+using TrackiCore.ValueObjects;
 
 namespace TrackiCore.Stats
 {

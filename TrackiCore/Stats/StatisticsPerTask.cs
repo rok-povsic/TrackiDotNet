@@ -1,8 +1,8 @@
 ﻿﻿using System;
 using System.Collections.Generic;
- using TrackiCore.Structures;
+ using TrackiCore.ValueObjects;
 
-namespace TrackiCore.Stats
+ namespace TrackiCore.Stats
 {
     class StatisticsPerTask
     {
