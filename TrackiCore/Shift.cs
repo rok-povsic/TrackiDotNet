@@ -11,11 +11,11 @@ namespace TrackiCore
         private readonly UserInput _userInput;
         private Data _data;
 
-        public Shift(string name)
+        public Shift(Type type, string name)
         {
             _name = name;
             _userInput = new UserInput();
-            _data = new Data();
+            _data = new Data(type);
         }
 
         public void Start()
@@ -74,5 +74,7 @@ Type 'c' to cancel.");
         {
             return Name;
         }
+
+        public enum Type { WORK, STUDY }
     }
 }

@@ -26,7 +26,7 @@ namespace TrackiCore.Stats
 
         public Statistics()
         {
-            _data = new Data();
+            _data = new Data(Shift.Type.WORK);
             _userInput = new UserInput();
             _statisticsPerTask = new StatisticsPerTask();
         }

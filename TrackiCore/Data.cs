@@ -1,11 +1,7 @@
 ﻿﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using TrackiCore.Structures;
+ using TrackiCore.Structures;
 
 namespace TrackiCore
 {
@@ -13,8 +9,24 @@ namespace TrackiCore
     {
         private readonly string _datetimeFormat = "yyyy-MM-dd HH:mm:ss";
         private char _separator = ',';
+        private string _filename;
 
-        private string Filepath => Path.Combine(Settings.DataDir, Settings.DataFilename);
+        private string Filepath => Path.Combine(Settings.DataDir, _filename);
+
+        internal Data(Shift.Type type)
+        {
+            switch (type)
+            {
+                case Shift.Type.WORK:
+                    _filename = "data.txt";
+                    break;
+                case Shift.Type.STUDY:
+                    _filename = "data-study.txt";
+                    break;
+                default:
+                    throw new Exception("Unknown type: " + type);
+            }
+        }
 
         public void Add(string name, DateTime dtStart, DateTime dtEnd)
         {

@@ -53,7 +53,7 @@ namespace TrackiCore
                 }
             }
 
-            return new Shift(category);
+            return new Shift(Shift.Type.WORK, category);
         }
     }
 }

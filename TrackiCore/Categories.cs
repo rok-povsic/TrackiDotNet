@@ -9,20 +9,22 @@ namespace TrackiCore
 {
     class Categories
     {
-        private readonly string _filePath = Path.Combine(Settings.DataDir, "categories.txt");
 
         private List<string> _categories = null;
 
         private UserInput _userInput;
+        private readonly string _fileName;
 
         public string this[int index] => _categories[index];
 
         public int Count => _categories.Count;
 
         public List<string> List => _categories;
+        private string FilePath => Path.Combine(Settings.DataDir, _fileName);
 
-        public Categories()
+        public Categories(string fileName)
         {
+            _fileName = fileName;
             ReadCategoriesFromFile();
             _userInput = new UserInput();
         }
@@ -46,13 +48,13 @@ namespace TrackiCore
         private void ReadCategoriesFromFile()
         {
             Directory.CreateDirectory(Settings.DataDir);
-            if (!File.Exists(_filePath))
+            if (!File.Exists(FilePath))
             {
-                File.Create(_filePath);
+                File.Create(FilePath);
                 _categories = new List<string>();
                 return;
             }
-            string[] lines = File.ReadAllLines(_filePath);
+            string[] lines = File.ReadAllLines(FilePath);
             _categories = lines.ToList();
         }
 
@@ -87,7 +89,7 @@ namespace TrackiCore
 
         private void Persist()
         {
-            File.WriteAllLines(_filePath, _categories);
+            File.WriteAllLines(FilePath, _categories);
         }
     }
 }
