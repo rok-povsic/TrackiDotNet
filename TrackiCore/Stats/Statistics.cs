@@ -1,10 +1,8 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
 using TrackiCore.Extensions;
-using TrackiCore.Stats;
 using TrackiCore.Structures;
 
 namespace TrackiCore.Stats
