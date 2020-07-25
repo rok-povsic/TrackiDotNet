@@ -9,16 +9,16 @@ namespace TrackiCore
 {
     public class Record
     {
-        private readonly WorkTask _workTask;
+        private readonly Shift _shift;
         private readonly ITimeTracking _timeTracking;
 
-        public Record(WorkTask workTask)
-            : this(workTask, new TimeTracking())
+        public Record(Shift shift)
+            : this(shift, new TimeTracking())
         { }
 
-        public Record(WorkTask workTask, ITimeTracking timeTracking)
+        public Record(Shift shift, ITimeTracking timeTracking)
         {
-            _workTask = workTask;
+            _shift = shift;
             _timeTracking = timeTracking;
         }
 

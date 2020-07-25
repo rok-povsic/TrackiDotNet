@@ -59,9 +59,9 @@ namespace TrackiCore
         private void StartTask()
         {
             var option = new Option("Select a category", Categories);
-            WorkTask workTask = option.AskForTask();
+            Shift shift = option.AskForTask();
 
-            workTask.Start();
+            shift.Start();
         }
     }
 }

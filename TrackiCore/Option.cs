@@ -17,7 +17,7 @@ namespace TrackiCore
             _categories = categories;
         }
 
-        public WorkTask AskForTask()
+        public Shift AskForTask()
         {
             Console.WriteLine(_text);
             for (int i = 0; i < _categories.Count; i++)
@@ -53,7 +53,7 @@ namespace TrackiCore
                 }
             }
 
-            return new WorkTask(category);
+            return new Shift(category);
         }
     }
 }

@@ -11,7 +11,7 @@ namespace TrackiCore.Test
         {
             var timeTracking = new FkTimeTracking();
 
-            var category = new WorkTask("Test");
+            var category = new Shift("Test");
             var record = new Record(category, timeTracking);
 
             record.Start();

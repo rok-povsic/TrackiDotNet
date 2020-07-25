@@ -18,16 +18,16 @@ namespace TrackiCore
                 case "main":
                     new Host().Main();
                     break;
-                case "start":
+                case "work":
                     if (args.Length != 2)
                     {
                         var categoriesList = new Host().Categories.List;
                         categoriesList.Sort();
-                        Console.WriteLine("Specify task: " + string.Join(' ', categoriesList));
+                        Console.WriteLine("Specify: " + string.Join(' ', categoriesList));
                         return;
                     }
                     string category = args[1];
-                    new WorkTask(category).Start();
+                    new Shift(category).Start();
                     break;
                 case "stats":
                     new Host().Statistics.Show();

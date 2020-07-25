@@ -3,7 +3,7 @@ using System.IO;
 
 namespace TrackiCore
 {
-    public class WorkTask
+    public class Shift
     {
         private string _name;
         public string Name => _name;
@@ -11,7 +11,7 @@ namespace TrackiCore
         private readonly UserInput _userInput;
         private Data _data;
 
-        public WorkTask(string name)
+        public Shift(string name)
         {
             _name = name;
             _userInput = new UserInput();
