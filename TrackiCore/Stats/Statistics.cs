@@ -19,19 +19,17 @@ namespace TrackiCore.Stats
     public class Statistics
     {
         private readonly Data _data;
-        private readonly UserInput _userInput;
         private StatisticsPerTask _statisticsPerTask;
 
         public Statistics()
         {
             _data = new Data(Shift.Type.WORK);
-            _userInput = new UserInput();
             _statisticsPerTask = new StatisticsPerTask();
         }
 
         public void Show()
         {
-                string cmd = _userInput.Ask(
+            Console.WriteLine(
 @"What kind of statistics would you like to see?
     a - Work per day
     b - Work per task
@@ -44,6 +42,9 @@ namespace TrackiCore.Stats
     i - This week stats
     j - Today stats
 ");
+            Console.Write(">> ");
+            string cmd = Console.ReadLine();
+
             switch (cmd.ToLower())
             {
                 case "a":
