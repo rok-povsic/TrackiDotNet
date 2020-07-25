@@ -1,6 +1,6 @@
-﻿using System;
+﻿﻿using System;
 
-namespace Tracki
+namespace TrackiCore
 {
     class TimeTracking : ITimeTracking
     {

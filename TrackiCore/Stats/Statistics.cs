@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
-using Tracki.Extensions;
-using Tracki.Stats;
-using Tracki.Structures;
+using TrackiCore.Extensions;
+using TrackiCore.Stats;
+using TrackiCore.Structures;
 
-namespace Tracki.Stats
+namespace TrackiCore.Stats
 {
     public enum CompleteStatsTime
     {
@@ -129,7 +129,7 @@ namespace Tracki.Stats
                 TimeSpan timeSpan = d[date];
                 int pomodoros = new Pomodoros(timeSpan).NumPomodoros();
                 Console.WriteLine(
-                    "{0,10} | {1,10} | {2,10}", date.ToString("yyyy-MM-dd"), 
+                    "{0,10} | {1,10} | {2,10}", date.ToString("yyyy-MM-dd"),
                     _TimeSpanFormat(timeSpan), pomodoros
                 );
             }
@@ -156,7 +156,7 @@ namespace Tracki.Stats
 
                 d[date.DayOfWeek] += workItem.Timespan();
             }
-            TimeSpan timeSpanTracking = workItems.Last().DtStart.Date 
+            TimeSpan timeSpanTracking = workItems.Last().DtStart.Date
                 - workItems.First().DtStart.Date;
             int numOfWeeksTracking = (int)timeSpanTracking.TotalDays / 7 + 1;
 
@@ -167,7 +167,7 @@ namespace Tracki.Stats
                 var avgTimeSpan = new TimeSpan(d[dayOfWeek].Ticks / numOfWeeksTracking);
                 int avgPomodoros = new Pomodoros(avgTimeSpan).NumPomodoros();
                 Console.WriteLine(
-                    "{0,12} | {1,10} | {2,10}", dayOfWeek, _TimeSpanFormat(avgTimeSpan), 
+                    "{0,12} | {1,10} | {2,10}", dayOfWeek, _TimeSpanFormat(avgTimeSpan),
                     avgPomodoros
                 );
             }
@@ -184,7 +184,7 @@ namespace Tracki.Stats
             {
                 DateTime date = workItem.DtStart.Date;
                 dts.Add(date);
-                string yearWeek = date.ToString("yyyy-") + 
+                string yearWeek = date.ToString("yyyy-") +
                     _WeekOfYear(date).ToString().PadLeft(2, '0');
                 if (!d.ContainsKey(yearWeek))
                 {
@@ -208,7 +208,7 @@ namespace Tracki.Stats
                 TimeSpan timeSpan = d[yearWeek];
                 int pomodoros = new Pomodoros(timeSpan).NumPomodoros();
                 Console.WriteLine(
-                    "{0,10} | {1,10} | {2,10}", yearWeek, 
+                    "{0,10} | {1,10} | {2,10}", yearWeek,
                     _TimeSpanFormat(timeSpan), pomodoros
                 );
             }
@@ -223,7 +223,7 @@ namespace Tracki.Stats
             foreach (DayOfWeek day in Enum.GetValues(typeof(DayOfWeek)))
             {
                 var o = new TimeSpan(dayOfWeekToHoursWorked[day].Ticks / numWeeks);
-                Console.WriteLine(day + ": " + o.TotalHours + "h");
+                Console.WriteLine($"{day}: {o.TotalHours:F2}h");
             }
 
             Console.WriteLine();
@@ -256,7 +256,7 @@ namespace Tracki.Stats
                 TimeSpan timeSpan = d[yearMonth];
                 int pomodoros = new Pomodoros(timeSpan).NumPomodoros();
                 Console.WriteLine(
-                    "{0,10} | {1,10} | {2,10}", yearMonth, 
+                    "{0,10} | {1,10} | {2,10}", yearMonth,
                     _TimeSpanFormat(timeSpan), pomodoros
                 );
             }
@@ -285,9 +285,9 @@ namespace Tracki.Stats
             TimeSpan maxTimeSpan = d.Values.Max();
 
             Console.WriteLine(
-                "{0,10} | {1,10} | {2,10} | {3,20}", 
-                "Name", 
-                "Sum time", 
+                "{0,10} | {1,10} | {2,10} | {3,20}",
+                "Name",
+                "Sum time",
                 "Pomodoros",
                 "Visual"
             );
@@ -310,7 +310,7 @@ namespace Tracki.Stats
                 int numPomodoros = new Pomodoros(timeSpan).NumPomodoros();
 
                 Console.WriteLine(
-                    "{0,10} | {1,10} | {2,10} | {3}", curDate.ToShortDateString(), 
+                    "{0,10} | {1,10} | {2,10} | {3}", curDate.ToShortDateString(),
                     _TimeSpanFormat(timeSpan), numPomodoros, new string('x', numPomodoros)
                 );
 
@@ -420,7 +420,7 @@ namespace Tracki.Stats
         /// <returns>the week of year</returns>
         public int _WeekOfYear(DateTime date)
         {
-            // Seriously cheat.  If its Monday, Tuesday or Wednesday, then it'll 
+            // Seriously cheat.  If its Monday, Tuesday or Wednesday, then it'll
             // be the same week# as whatever Thursday, Friday or Saturday are,
             // and we always get those right
             DayOfWeek day = CultureInfo.InvariantCulture.Calendar.GetDayOfWeek(date);

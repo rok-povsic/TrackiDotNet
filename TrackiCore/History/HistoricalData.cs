@@ -1,11 +1,11 @@
-﻿using System;
+﻿﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Tracki.History
+namespace TrackiCore.History
 {
     public class TogglData
     {
@@ -37,7 +37,7 @@ namespace Tracki.History
 
             string dir = Path.GetDirectoryName(_filePath);
             string fileName = string.Format(
-                "{0}_tracki{1}", 
+                "{0}_tracki{1}",
                 Path.GetFileNameWithoutExtension(_filePath),
                 Path.GetExtension(_filePath)
             );

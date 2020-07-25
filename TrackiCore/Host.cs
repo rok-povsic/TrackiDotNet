@@ -1,13 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Tracki.Stats;
+using TrackiCore.Stats;
 
-namespace Tracki
+namespace TrackiCore
 {
     class Host
     {
@@ -27,7 +20,7 @@ namespace Tracki
             while (true)
             {
                 string cmd = _userInput.Ask(
-@"What would you like to do?
+                    @"What would you like to do?
     a - Start a task
     b - Modify categories
     c - Statistics

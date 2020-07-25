@@ -1,10 +1,10 @@
-﻿using System;
+﻿﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Tracki.Extensions
+namespace TrackiCore.Extensions
 {
     /// <summary>
     /// From: http://stackoverflow.com/questions/38039/how-can-i-get-the-datetime-for-the-start-of-the-week

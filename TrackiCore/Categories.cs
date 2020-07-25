@@ -1,11 +1,11 @@
-﻿using System;
+﻿﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Tracki
+namespace TrackiCore
 {
     class Categories
     {
@@ -31,7 +31,7 @@ namespace Tracki
         {
             get
             {
-                
+
                 if (_categories == null)
                 {
                     ReadCategoriesFromFile();

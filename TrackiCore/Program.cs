@@ -1,11 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Tracki.History;
+using TrackiCore.History;
 
-namespace Tracki
+namespace TrackiCore
 {
     class Program
     {
@@ -14,7 +10,7 @@ namespace Tracki
             if (args.Length == 0)
             {
                 new Host().Start();
-            } 
+            }
             else if (args[0] == "history")
             {
                 new TogglData(args[1]).Transform();

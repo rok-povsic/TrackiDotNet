@@ -1,18 +1,18 @@
-﻿using System;
+﻿﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Tracki
+namespace TrackiCore
 {
-    class Record
+    public class Record
     {
         private readonly WorkTask _workTask;
         private readonly ITimeTracking _timeTracking;
 
-        public Record(WorkTask workTask) 
+        public Record(WorkTask workTask)
             : this(workTask, new TimeTracking())
         { }
 

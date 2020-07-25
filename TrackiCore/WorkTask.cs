@@ -1,11 +1,9 @@
-﻿using System;
-using System.Diagnostics;
+﻿﻿using System;
 using System.IO;
-using NUnit.Framework.Internal.Execution;
 
-namespace Tracki
+namespace TrackiCore
 {
-    class WorkTask
+    public class WorkTask
     {
         private string _name;
         public string Name => _name;
