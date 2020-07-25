@@ -21,7 +21,7 @@ using System.Collections.Generic;
 
         public StatisticsPerTask()
         {
-            _dataRepo = new DataRepo(Shift.Type.WORK);
+            _dataRepo = new DataRepo(WorkType.WORK);
         }
 
         public void Display()

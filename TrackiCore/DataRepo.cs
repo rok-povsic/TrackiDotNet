@@ -5,7 +5,7 @@ using TrackiCore.ValueObjects;
 
 namespace TrackiCore
 {
-    class DataRepo
+    public class DataRepo
     {
         private readonly string _datetimeFormat = "yyyy-MM-dd HH:mm:ss";
         private readonly char _separator = ',';
@@ -13,14 +13,14 @@ namespace TrackiCore
 
         private string Filepath => Path.Combine(Settings.DataDir, _filename);
 
-        internal DataRepo(Shift.Type type)
+        internal DataRepo(WorkType type)
         {
             switch (type)
             {
-                case Shift.Type.WORK:
+                case WorkType.WORK:
                     _filename = "data.txt";
                     break;
-                case Shift.Type.STUDY:
+                case WorkType.STUDY:
                     _filename = "data-study.txt";
                     break;
                 default:

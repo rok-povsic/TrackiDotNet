@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using TrackiCore.Stats;
+using TrackiCore.ValueObjects;
 
 namespace TrackiCore
 {
@@ -18,6 +20,8 @@ namespace TrackiCore
 
         private void Run()
         {
+            Directory.CreateDirectory(Settings.DataDir);
+
             List<string> commands = new List<string> { "work", "stats", "study" };
             if (_args.Length == 0 || !commands.Contains(_args[0]))
                 throw new TrackiException("Commands: " + string.Join(' ', commands));
@@ -27,17 +31,19 @@ namespace TrackiCore
                 case "work":
                 {
                     string category = CategoryFromArgs(_workCategories);
-                    var shift = new Shift(Shift.Type.WORK, category);
+                    var shift = new Shift(category);
                     shift.Start();
-                    WaitForEnding(shift);
+                    var workItem = WaitForEnding(shift);
+                    new DataRepo(WorkType.WORK).Add(workItem);
                     break;
                 }
                 case "study":
                 {
                     string category = CategoryFromArgs(_studyCategories);
-                    var shift = new Shift(Shift.Type.STUDY, category);
+                    var shift = new Shift(category);
                     shift.Start();
-                    WaitForEnding(shift);
+                    var workItem = WaitForEnding(shift);
+                    new DataRepo(WorkType.STUDY).Add(workItem);
                     break;
                 }
                 case "stats":
@@ -69,7 +75,7 @@ namespace TrackiCore
             return category;
         }
 
-        private void WaitForEnding(Shift shift)
+        private WorkItem WaitForEnding(Shift shift)
         {
             while (true)
             {
@@ -78,14 +84,13 @@ namespace TrackiCore
                 {
                     case "f":
                     {
-                        shift.Finish();
-                        return;
+                        return shift.Finish();
                     }
                     case "c":
                     {
                         if (Ask("Type 'c' to confirm cancel.") == "c")
                         {
-                            return;
+                            return WorkItem.None;
                         }
 
                         break;

@@ -23,7 +23,7 @@ namespace TrackiCore.Stats
 
         public Statistics()
         {
-            _dataRepo = new DataRepo(Shift.Type.WORK);
+            _dataRepo = new DataRepo(WorkType.WORK);
             _statisticsPerTask = new StatisticsPerTask();
         }
 
