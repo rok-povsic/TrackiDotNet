@@ -1,56 +1,81 @@
 ﻿using System;
 using System.Collections.Generic;
+using TrackiCore.Stats;
 
 namespace TrackiCore
 {
-    class Program
+    public class Program
     {
-        static void Main(string[] args)
-        {
-            List<string> commands = new List<string>
-            {
-                "work", "stats", "study"
-            };
-            if (args.Length == 0 || !commands.Contains(args[0]))
-            {
-                Console.WriteLine("Commands: " + String.Join(' ', commands));
-                return;
-            }
+        private readonly string[] _args;
 
-            switch (args[0])
+        private readonly Categories _workCategories = new Categories("categories.txt");
+        private readonly Categories _studyCategories = new Categories("categories-study.txt");
+
+        private Program(string[] args)
+        {
+            _args = args;
+        }
+
+        private void Run()
+        {
+            List<string> commands = new List<string> { "work", "stats", "study" };
+            if (_args.Length == 0 || !commands.Contains(_args[0]))
+                throw new TrackiException("Commands: " + string.Join(' ', commands));
+
+            switch (_args[0])
             {
                 case "work":
-                    Start(Shift.Type.WORK, args);
+                {
+                    string category = CategoryFromArgs(_workCategories);
+                    new Shift(Shift.Type.WORK, category).Start();
                     break;
+                }
                 case "study":
-                    Start(Shift.Type.STUDY, args);
+                {
+                    string category = CategoryFromArgs(_studyCategories);
+                    new Shift(Shift.Type.STUDY, category).Start();
                     break;
+                }
                 case "stats":
-                    new Host().Statistics.Show();
+                {
+                    new Statistics().Show();
                     break;
+                }
+                default:
+                {
+                    throw new Exception($"Command `{_args[0]}` not handled.");
+                }
             }
         }
 
-        private static void Start(Shift.Type type, string[] args)
+        private string CategoryFromArgs(Categories categories)
         {
-            var categoriesList = new Host().Categories(type).List;
-
-            if (args.Length != 2)
+            var names = categories.List;
+            if (_args.Length != 2)
             {
-                categoriesList.Sort();
-                Console.WriteLine("Specify: " + string.Join(' ', categoriesList));
-                return;
+                names.Sort();
+                throw new TrackiException("Specify: " + string.Join(' ', names));
             }
 
-            string category = args[1];
-
-            if (!categoriesList.Contains(category))
+            string category = _args[0];
+            if (!categories.Contains(category))
             {
-                Console.WriteLine($"Category {category} doesn't exist.");
-                return;
+                throw new TrackiException($"Category {category} doesn't exist.");
             }
+            return category;
+        }
 
-            new Shift(type, category).Start();
+        public static void Main(string[] args)
+        {
+            try
+            {
+                new Program(args).Run();
+            }
+            catch (TrackiException ex)
+            {
+                Console.Error.WriteLine(ex.Message);
+                Environment.Exit(1);
+            }
         }
     }
 }
