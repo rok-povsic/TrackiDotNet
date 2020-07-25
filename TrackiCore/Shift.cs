@@ -3,13 +3,15 @@ using TrackiCore.ValueObjects;
 
 namespace TrackiCore
 {
-    public partial class Shift
+    public class Shift
     {
+        private readonly WorkType _type;
         private readonly string _name;
         private DateTime _dtStart;
 
-        public Shift(string name)
+        public Shift(WorkType type, string name)
         {
+            _type = type;
             _name = name;
         }
 
@@ -24,7 +26,7 @@ namespace TrackiCore
             var dtEnd = DateTime.Now;
             Console.WriteLine("Finished: {0:hh}h {0:mm}min", dtEnd - _dtStart);
 
-            return new WorkItem(_name, _dtStart, dtEnd);
+            return new WorkItem(_type, _name, _dtStart, dtEnd);
         }
 
         public override string ToString()

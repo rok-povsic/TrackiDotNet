@@ -31,19 +31,19 @@ namespace TrackiCore
                 case "work":
                 {
                     string category = CategoryFromArgs(_workCategories);
-                    var shift = new Shift(category);
+                    var shift = new Shift(WorkType.WORK, category);
                     shift.Start();
                     var workItem = WaitForEnding(shift);
-                    new DataRepo(WorkType.WORK).Add(workItem);
+                    new DataRepo().Add(workItem);
                     break;
                 }
                 case "study":
                 {
                     string category = CategoryFromArgs(_studyCategories);
-                    var shift = new Shift(category);
+                    var shift = new Shift(WorkType.STUDY, category);
                     shift.Start();
                     var workItem = WaitForEnding(shift);
-                    new DataRepo(WorkType.STUDY).Add(workItem);
+                    new DataRepo().Add(workItem);
                     break;
                 }
                 case "stats":
@@ -92,7 +92,6 @@ namespace TrackiCore
                         {
                             return WorkItem.None;
                         }
-
                         break;
                     }
                 }

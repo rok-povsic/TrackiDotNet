@@ -23,7 +23,7 @@ namespace TrackiCore.Stats
 
         public Statistics()
         {
-            _dataRepo = new DataRepo(WorkType.WORK);
+            _dataRepo = new DataRepo();
             _statisticsPerTask = new StatisticsPerTask();
         }
 
@@ -107,7 +107,7 @@ namespace TrackiCore.Stats
         private void PerDayDisplay()
         {
             var d = new Dictionary<DateTime, TimeSpan>();
-            foreach (WorkItem workItem in _dataRepo.Read())
+            foreach (WorkItem workItem in _dataRepo.Read(WorkType.WORK))
             {
                 var date = workItem.DtStart.Date;
                 if (!d.ContainsKey(date))
@@ -144,7 +144,7 @@ namespace TrackiCore.Stats
                 d[dayOfWeek] = TimeSpan.Zero;
             }
 
-            var workItems = _dataRepo.Read();
+            var workItems = _dataRepo.Read(WorkType.WORK);
             foreach (WorkItem workItem in workItems)
             {
                 var date = workItem.DtStart.Date;
@@ -179,7 +179,7 @@ namespace TrackiCore.Stats
             var d = new Dictionary<string, TimeSpan>();
             var dayOfWeekToHoursWorked = new Dictionary<DayOfWeek, TimeSpan>();
             var dts = new HashSet<DateTime>();
-            foreach (WorkItem workItem in _dataRepo.Read())
+            foreach (WorkItem workItem in _dataRepo.Read(WorkType.WORK))
             {
                 DateTime date = workItem.DtStart.Date;
                 dts.Add(date);
@@ -233,7 +233,7 @@ namespace TrackiCore.Stats
         private void PerMonthDisplay()
         {
             var d = new Dictionary<string, TimeSpan>();
-            foreach (WorkItem workItem in _dataRepo.Read())
+            foreach (WorkItem workItem in _dataRepo.Read(WorkType.WORK))
             {
                 var date = workItem.DtStart.Date;
                 string yearMonth = date.ToString("yyyy-MM");
@@ -268,7 +268,7 @@ namespace TrackiCore.Stats
             DateTime dateFrom = DateTime.Now.Date
                 .AddDays(-14);
             var d = new SortedDictionary<DateTime, TimeSpan>();
-            foreach (WorkItem workItem in _dataRepo.Read())
+            foreach (WorkItem workItem in _dataRepo.Read(WorkType.WORK))
             {
                 DateTime date = workItem.DtStart.Date;
                 if (date < dateFrom)
@@ -369,7 +369,7 @@ namespace TrackiCore.Stats
 
             TimeSpan sum = TimeSpan.Zero;
             var d = new SortedDictionary<DateTime, TimeSpan>();
-            foreach (WorkItem workItem in _dataRepo.Read())
+            foreach (WorkItem workItem in _dataRepo.Read(WorkType.WORK))
             {
                 DateTime date = workItem.DtStart.Date;
                 if (date < dateFrom || dateTo < date)

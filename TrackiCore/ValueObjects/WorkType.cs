@@ -1,4 +1,4 @@
 namespace TrackiCore.ValueObjects
 {
-    public enum WorkType { WORK, STUDY }
+    public enum WorkType { NONE, WORK, STUDY }
 }

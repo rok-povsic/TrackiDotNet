@@ -8,7 +8,7 @@ using System.Collections.Generic;
     {
         private DataRepo _dataRepo;
 
-        private List<ConsoleColor> _colors = new List<ConsoleColor>
+        private readonly List<ConsoleColor> _colors = new List<ConsoleColor>
         {
             ConsoleColor.Green,
             ConsoleColor.Blue,
@@ -21,13 +21,13 @@ using System.Collections.Generic;
 
         public StatisticsPerTask()
         {
-            _dataRepo = new DataRepo(WorkType.WORK);
+            _dataRepo = new DataRepo();
         }
 
         public void Display()
         {
             var categoryToTimespan = new Dictionary<string, TimeSpan>();
-            foreach (WorkItem workItem in _dataRepo.Read())
+            foreach (WorkItem workItem in _dataRepo.Read(WorkType.WORK))
             {
                 if (!categoryToTimespan.ContainsKey(workItem.Name))
                 {
