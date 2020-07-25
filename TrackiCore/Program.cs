@@ -10,7 +10,7 @@ namespace TrackiCore
         {
             List<string> commands = new List<string>
             {
-                "main", "work", "stats", "study"
+                "work", "stats", "study"
             };
             if (args.Length == 0 || !commands.Contains(args[0]))
             {
@@ -20,9 +20,6 @@ namespace TrackiCore
 
             switch (args[0])
             {
-                case "main":
-                    new Host().Main();
-                    break;
                 case "work":
                     Start(Shift.Type.WORK, args);
                     break;
