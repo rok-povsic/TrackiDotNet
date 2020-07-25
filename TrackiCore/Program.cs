@@ -27,13 +27,17 @@ namespace TrackiCore
                 case "work":
                 {
                     string category = CategoryFromArgs(_workCategories);
-                    new Shift(Shift.Type.WORK, category).Start();
+                    var shift = new Shift(Shift.Type.WORK, category);
+                    shift.Start();
+                    WaitForEnding(shift);
                     break;
                 }
                 case "study":
                 {
                     string category = CategoryFromArgs(_studyCategories);
-                    new Shift(Shift.Type.STUDY, category).Start();
+                    var shift = new Shift(Shift.Type.STUDY, category);
+                    shift.Start();
+                    WaitForEnding(shift);
                     break;
                 }
                 case "stats":
@@ -63,6 +67,38 @@ namespace TrackiCore
                 throw new TrackiException($"Category {category} doesn't exist.");
             }
             return category;
+        }
+
+        private void WaitForEnding(Shift shift)
+        {
+            while (true)
+            {
+                string cmd = Ask("Type 'f' to finish.\nType 'c' to cancel.");
+                switch (cmd)
+                {
+                    case "f":
+                    {
+                        shift.Finish();
+                        return;
+                    }
+                    case "c":
+                    {
+                        if (Ask("Type 'c' to confirm cancel.") == "c")
+                        {
+                            return;
+                        }
+
+                        break;
+                    }
+                }
+            }
+        }
+
+        private string Ask(string text)
+        {
+            Console.WriteLine(text);
+            Console.Write(">> ");
+            return Console.ReadLine();
         }
 
         public static void Main(string[] args)

@@ -8,9 +8,8 @@ using System.Linq;
     class Categories
     {
 
-        private List<string> _categories = null;
+        private List<string> _categories;
 
-        private UserInput _userInput;
         private readonly string _fileName;
 
         public string this[int index] => _categories[index];
@@ -24,7 +23,6 @@ using System.Linq;
         {
             _fileName = fileName;
             ReadCategoriesFromFile();
-            _userInput = new UserInput();
         }
 
         public void Display()
