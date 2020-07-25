@@ -58,7 +58,7 @@ Type 'c' to cancel.");
         private void Finish(DateTime dtStart)
         {
             var dtEnd = DateTime.Now;
-            Console.WriteLine("Finished. Worked: {0:hh}h {0:mm}min", dtEnd - dtStart);
+            Console.WriteLine("Finished: {0:hh}h {0:mm}min", dtEnd - dtStart);
 
             Directory.CreateDirectory(Settings.DataDir);
 

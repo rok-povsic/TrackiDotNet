@@ -15,33 +15,15 @@ namespace TrackiCore
 
         private UserInput _userInput;
 
-        public string this[int index]
-        {
-            get
-            {
-                if (_categories == null)
-                {
-                    ReadCategoriesFromFile();
-                }
-                return _categories[index];
-            }
-        }
+        public string this[int index] => _categories[index];
 
-        public int Count
-        {
-            get
-            {
+        public int Count => _categories.Count;
 
-                if (_categories == null)
-                {
-                    ReadCategoriesFromFile();
-                }
-                return _categories.Count;
-            }
-        }
+        public List<string> List => _categories;
 
         public Categories()
         {
+            ReadCategoriesFromFile();
             _userInput = new UserInput();
         }
 

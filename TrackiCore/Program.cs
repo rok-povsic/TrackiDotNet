@@ -9,11 +9,29 @@ namespace TrackiCore
         {
             if (args.Length == 0)
             {
-                new Host().Start();
+                Console.WriteLine("Commands: main work stats");
+                return;
             }
-            else if (args[0] == "history")
+
+            switch (args[0])
             {
-                new TogglData(args[1]).Transform();
+                case "main":
+                    new Host().Main();
+                    break;
+                case "start":
+                    if (args.Length != 2)
+                    {
+                        var categoriesList = new Host().Categories.List;
+                        categoriesList.Sort();
+                        Console.WriteLine("Specify task: " + string.Join(' ', categoriesList));
+                        return;
+                    }
+                    string category = args[1];
+                    new WorkTask(category).Start();
+                    break;
+                case "stats":
+                    new Host().Statistics.Show();
+                    break;
             }
         }
     }

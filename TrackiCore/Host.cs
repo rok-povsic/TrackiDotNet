@@ -5,17 +5,18 @@ namespace TrackiCore
     class Host
     {
         private readonly UserInput _userInput;
-        private readonly Categories _categories;
-        private readonly Statistics _statistics;
+
+        public Statistics Statistics { get; }
+        public Categories Categories { get; }
 
         public Host()
         {
             _userInput = new UserInput();
-            _categories = new Categories();
-            _statistics = new Statistics();
+            Categories = new Categories();
+            Statistics = new Statistics();
         }
 
-        public void Start()
+        public void Main()
         {
             while (true)
             {
@@ -35,12 +36,12 @@ namespace TrackiCore
                     }
                     case "b":
                     {
-                        _categories.Display();
+                        Categories.Display();
                         break;
                     }
                     case "c":
                     {
-                        _statistics.Show();
+                        Statistics.Show();
                         break;
                     }
                     case "q":
@@ -57,7 +58,7 @@ namespace TrackiCore
 
         private void StartTask()
         {
-            var option = new Option("Select a category", _categories);
+            var option = new Option("Select a category", Categories);
             WorkTask workTask = option.AskForTask();
 
             workTask.Start();
