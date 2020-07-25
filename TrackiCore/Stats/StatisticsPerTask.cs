@@ -6,7 +6,7 @@ using System.Collections.Generic;
 {
     class StatisticsPerTask
     {
-        private Data _data;
+        private DataRepo _dataRepo;
 
         private List<ConsoleColor> _colors = new List<ConsoleColor>
         {
@@ -21,13 +21,13 @@ using System.Collections.Generic;
 
         public StatisticsPerTask()
         {
-            _data = new Data(Shift.Type.WORK);
+            _dataRepo = new DataRepo(Shift.Type.WORK);
         }
 
         public void Display()
         {
             var categoryToTimespan = new Dictionary<string, TimeSpan>();
-            foreach (WorkItem workItem in _data.Read())
+            foreach (WorkItem workItem in _dataRepo.Read())
             {
                 if (!categoryToTimespan.ContainsKey(workItem.Name))
                 {

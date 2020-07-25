@@ -5,15 +5,15 @@ using TrackiCore.ValueObjects;
 
 namespace TrackiCore
 {
-    class Data
+    class DataRepo
     {
         private readonly string _datetimeFormat = "yyyy-MM-dd HH:mm:ss";
-        private char _separator = ',';
-        private string _filename;
+        private readonly char _separator = ',';
+        private readonly string _filename;
 
         private string Filepath => Path.Combine(Settings.DataDir, _filename);
 
-        internal Data(Shift.Type type)
+        internal DataRepo(Shift.Type type)
         {
             switch (type)
             {
@@ -28,15 +28,15 @@ namespace TrackiCore
             }
         }
 
-        public void Add(string name, DateTime dtStart, DateTime dtEnd)
+        public void Add(WorkItem workItem)
         {
             using (var sw = new StreamWriter(Filepath, true))
             {
                 string[] line =
                 {
-                    name,
-                    dtStart.ToString(_datetimeFormat),
-                    dtEnd.ToString(_datetimeFormat)
+                    workItem.Name,
+                    workItem.DtStart.ToString(_datetimeFormat),
+                    workItem.DtEnd.ToString(_datetimeFormat)
                 };
                 sw.WriteLine(string.Join(_separator.ToString(), line));
             }

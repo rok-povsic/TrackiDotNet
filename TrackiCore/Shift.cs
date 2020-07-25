@@ -1,19 +1,20 @@
 ﻿﻿using System;
 using System.IO;
+ using TrackiCore.ValueObjects;
 
-namespace TrackiCore
+ namespace TrackiCore
 {
     public class Shift
     {
         private readonly string _name;
         private DateTime _dtStart;
 
-        private readonly Data _data;
+        private readonly DataRepo _dataRepo;
 
         public Shift(Type type, string name)
         {
             _name = name;
-            _data = new Data(type);
+            _dataRepo = new DataRepo(type);
         }
 
         public void Start()
@@ -29,7 +30,7 @@ namespace TrackiCore
 
             Directory.CreateDirectory(Settings.DataDir);
 
-            _data.Add(_name, _dtStart, dtEnd);
+            _dataRepo.Add(new WorkItem(_name, _dtStart, dtEnd));
         }
 
         public override string ToString()
