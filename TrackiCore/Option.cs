@@ -25,13 +25,34 @@ namespace TrackiCore
                 char c = (char) ('a' + i);
                 Console.WriteLine("\t" + c + " - " + _categories[i]);
             }
-            Console.Write(">> ");
-            string answer = Console.ReadLine();
-            char answerChar = Convert.ToChar(answer);
 
-            int chosenTask = answerChar - 'a';
+            string category;
+            while (true)
+            {
+                Console.Write(">> ");
+                string answer = Console.ReadLine();
 
-            string category = _categories[chosenTask];
+                if (answer.StartsWith(" "))
+                {
+                    char answerChar = Convert.ToChar(answer);
+                    int chosenTask = answerChar - 'a';
+                    category = _categories[chosenTask];
+                    break;
+                }
+                else
+                {
+                    category = answer.ToUpper();
+                    if (_categories.Contains(category))
+                    {
+                        break;
+                    }
+                    else
+                    {
+                        Console.WriteLine("Category name doesn't exist.");
+                    }
+                }
+            }
+
             return new WorkTask(category);
         }
     }

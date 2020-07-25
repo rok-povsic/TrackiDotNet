@@ -80,6 +80,11 @@ namespace TrackiCore
             Persist();
         }
 
+        public bool Contains(string category)
+        {
+            return _categories.Contains(category);
+        }
+
         /// <summary>
         /// TODO: Rename work also?
         /// </summary>
