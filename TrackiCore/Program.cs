@@ -48,7 +48,13 @@ namespace TrackiCore
                 }
                 case "stats":
                 {
-                    new Statistics().Show();
+                    if (_args.Length != 2)
+                    {
+                        throw new TrackiException("Specify: work study");
+                    }
+
+                    WorkType workType = _args[1] == "work" ? WorkType.WORK : WorkType.STUDY;
+                    new Statistics(workType).Show();
                     break;
                 }
                 default:
