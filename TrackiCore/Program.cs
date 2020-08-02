@@ -67,7 +67,7 @@ namespace TrackiCore
                 throw new TrackiException("Specify: " + string.Join(' ', names));
             }
 
-            string category = _args[0];
+            string category = _args[1];
             if (!categories.Contains(category))
             {
                 throw new TrackiException($"Category {category} doesn't exist.");
